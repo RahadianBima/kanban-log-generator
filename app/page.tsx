@@ -40,7 +40,7 @@ function getWeekNumber(d) {
   copy.setHours(0, 0, 0, 0);
   copy.setDate(copy.getDate() + 3 - ((copy.getDay() + 6) % 7));
   var week1 = new Date(copy.getFullYear(), 0, 4);
-  return 1 + Math.round(((copy - week1) / 86400000 - 3 + ((week1.getDay() + 6) % 7)) / 7);
+  return 1 + Math.round(((copy.getTime() - week1.getTime()) / 86400000 - 3 + ((week1.getDay() + 6) % 7)) / 7);
 }
 
 function getPeriodDates(preset) {
