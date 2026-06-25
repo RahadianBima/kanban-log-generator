@@ -36,11 +36,12 @@ function fmtDate(d) {
 }
 
 function getWeekNumber(d) {
-  var copy = new Date(d);
-  copy.setHours(0, 0, 0, 0);
-  copy.setDate(copy.getDate() + 3 - ((copy.getDay() + 6) % 7));
-  var week1 = new Date(copy.getFullYear(), 0, 4);
-  return 1 + Math.round(((copy.getTime() - week1.getTime()) / 86400000 - 3 + ((week1.getDay() + 6) % 7)) / 7);
+  var start = new Date(d);
+  start.setHours(0, 0, 0, 0);
+  start.setDate(start.getDate() + 3 - ((start.getDay() + 6) % 7));
+  var week1 = new Date(start.getFullYear(), 0, 4);
+  var diff = (start.getTime() - week1.getTime()) / 86400000;
+  return 1 + Math.round((diff - 3 + ((week1.getDay() + 6) % 7)) / 7);
 }
 
 function getPeriodDates(preset) {
