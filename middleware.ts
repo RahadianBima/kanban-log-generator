@@ -1,8 +1,5 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { jwtVerify } from 'jose';
-
-const getJwtSecret = () => new TextEncoder().encode(process.env.JWT_SECRET || 'fallback-secret-do-not-use-in-prod');
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -17,7 +14,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // For API routes (jira, confluence, anthropic), require valid session
+  // For API routes (jira, confluence, anthropic), require session cookie
+  // JWT verification done in the API route itself (Node.js runtime)
   if (pathname.startsWith('/api/')) {
     const sessionCookie = request.cookies.get('session')?.value;
 
@@ -25,12 +23,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    try {
-      await jwtVerify(sessionCookie, getJwtSecret());
-      return NextResponse.next();
-    } catch {
-      return NextResponse.json({ error: 'Session invalid' }, { status: 401 });
-    }
+    return NextResponse.next();
   }
 
   return NextResponse.next();
