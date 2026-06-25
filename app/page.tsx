@@ -717,7 +717,7 @@ export default function App() {
           .join('\n');
 
         // Compute period metrics
-        var daysInPeriod = Math.ceil((new Date(periodEnd + 'T23:59:59') - new Date(periodStart + 'T00:00:00')) / (1000 * 60 * 60 * 24));
+        var daysInPeriod = Math.ceil((new Date(periodEnd + 'T23:59:59').getTime() - new Date(periodStart + 'T00:00:00').getTime()) / (1000 * 60 * 60 * 24));
         var statusCounts = {};
         issues.forEach(function (t) {
           statusCounts[t.status] = (statusCounts[t.status] || 0) + 1;
