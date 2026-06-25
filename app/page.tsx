@@ -95,7 +95,10 @@ function getPeriodDates(preset) {
 // ── Jira API via Next.js backend (no CORS issues) ──────────────────
 async function fetchIssuesByJql(jql) {
   var res = await fetch('/api/jira?action=jql&jql=' + encodeURIComponent(jql));
-  if (!res.ok) throw new Error('Failed to fetch issues via JQL');
+  if (!res.ok) {
+    var errBody = await res.json().catch(function(){ return {error: res.statusText}; });
+    throw new Error('JQL error: ' + (errBody.error || res.statusText));
+  }
   var data = await res.json();
   return data.issues || [];
 }
