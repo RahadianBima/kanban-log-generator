@@ -692,7 +692,7 @@ export default function App() {
     setStep(3);
     setLoadingMsg('Fetching completed tickets from Jira...');
 
-    var jql = 'project = ' + pk + ' AND resolved >= "' + periodStart + '" AND resolved <= "' + periodEnd + '"';
+    var jql = 'project = "' + pk + '" AND resolved >= "' + periodStart + '" AND resolved <= "' + periodEnd + '"';
 
     fetchIssuesByJql(jql)
       .then(function (issues) {
