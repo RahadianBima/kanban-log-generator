@@ -58,7 +58,7 @@ export async function GET(request: Request) {
       if (!jql) throw new Error('jql parameter is required');
       const fields = 'summary,status,customfield_10005,issuetype,parent,subtasks';
       const data = await jiraFetch(
-        `${baseUrl}/rest/agile/1.0/issue/search?jql=${encodeURIComponent(jql)}&fields=${fields}&maxResults=100`
+        `${baseUrl}/rest/api/3/search?jql=${encodeURIComponent(jql)}&fields=${fields}&maxResults=100`
       );
       return NextResponse.json({
         issues: (data.issues || []).map((i: any) => ({
