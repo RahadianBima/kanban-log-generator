@@ -738,16 +738,24 @@ export default function App() {
         };
 
         return anthropicJSON(
-          'Period analyst. Return ONLY minified JSON no whitespace no markdown.',
+          'You are an experienced engineering manager writing a detailed period-end report. Return ONLY minified JSON no whitespace no markdown.',
           'Objectives:\n' +
             goalStr +
             '\nCompleted Tickets (each has key, type):\n' +
             ticketLines +
-            '\nFor each objective: find relevant ticketKeys, derive status(achieved/partially achieved/not achieved/invalid), 1-sentence English comment.' +
+            '\nFor each objective:\n' +
+            '1. Find which tickets are relevant (ticketKeys)\n' +
+            '2. Derive status: achieved / partially achieved / not achieved / invalid\n' +
+            '3. Write a DETAILED comment (3-5 sentences) covering:\n' +
+            '   - What was accomplished and key outcomes\n' +
+            '   - Notable challenges or blockers encountered\n' +
+            '   - Dependencies or cross-team coordination involved\n' +
+            '   - Quality notes or areas needing follow-up\n' +
+            '4. If status is "partially achieved", explain what remains and why.\n' +
             '\nAn objective is achieved if all its tickets are completed, partially if some are done.' +
             '\nReturn: {"goals":[{"text":"...","status":"...","ticketKeys":["' +
             pk +
-            '-1"],"comment":"..."}]}'
+            '-1"],"comment":"detailed multi-sentence comment here"}]}'
         ).then(function (mp) {
           var imap = {};
           issues.forEach(function (t) {
